@@ -12,4 +12,8 @@ public interface RentService {
     void saveRent(Rent rent);
 
     void deleteRent(Long id);
+
+    List<Rent> getAllRents();
+
+    Rent findRent(Long id);
 }

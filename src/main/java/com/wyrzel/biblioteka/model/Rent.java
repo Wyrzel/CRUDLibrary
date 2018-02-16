@@ -4,10 +4,11 @@ package com.wyrzel.biblioteka.model;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-
 
 
 @AllArgsConstructor
@@ -23,6 +24,7 @@ public class Rent {
     private LocalDate returnDate;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
+
     private Book book;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

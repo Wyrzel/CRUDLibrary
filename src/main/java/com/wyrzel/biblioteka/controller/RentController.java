@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.transaction.Transactional;
 import java.security.Principal;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 public class RentController {
@@ -32,7 +34,7 @@ public class RentController {
     @RequestMapping(value = "/book/rent/{id}", method = RequestMethod.GET)
     public ModelAndView RentBook(Principal principal, @PathVariable Long id) {
         Book book = bookService.getBook(id);
-      //  if (book.getStatus() == Book.Status.AVALIBLE) {
+
             User user = userService.findByEmail(principal.getName());
             book.setStatus(Book.Status.LOANED);
             LocalDate rentDate = LocalDate.now();
@@ -41,6 +43,25 @@ public class RentController {
             rentService.saveRent(rent);
 
             return new ModelAndView("redirect:/profile");
-      //  } else
     }
+
+    @RequestMapping(value = "/book/rents",method = RequestMethod.GET)
+    public ModelAndView AllRents(ModelAndView modelAndView){
+        List<Rent> rents = rentService.getAllRents();
+        modelAndView.addObject("listRents", rents);
+        modelAndView.setViewName("allRents");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/deleteRent/{id}", method = RequestMethod.GET)
+    public ModelAndView DeleteRent(@PathVariable Long id, ModelAndView modelAndView){
+        Rent rent =rentService.findRent(id);
+        rent.setReturnDate(LocalDate.now());
+        rentService.saveRent(rent);
+        Book book= rent.getBook();
+        book.setStatus(Book.Status.AVALIBLE);
+        bookService.updateBook(book.getId(), book);
+        return new ModelAndView("redirect:/allRents");
+    }
+
 }
