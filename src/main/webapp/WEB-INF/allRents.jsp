@@ -81,7 +81,7 @@
                     <td>${rent.book.title}</td>
                     <td>${rent.user.firstName}</td>
                     <td>
-                        <a href="/deleteBook/${rent.rent_id}" class="btn btn-danger">
+                        <a href="/deleteRent/${rent.rent_id}" class="btn btn-danger">
                             <span class="glyphicon glyphicon-trash"></span> Delete</a></td>
                 </tr>
             </c:forEach>

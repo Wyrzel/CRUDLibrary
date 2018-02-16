@@ -56,12 +56,13 @@ public class RentController {
     @RequestMapping(value = "/deleteRent/{id}", method = RequestMethod.GET)
     public ModelAndView DeleteRent(@PathVariable Long id, ModelAndView modelAndView){
         Rent rent =rentService.findRent(id);
-        rent.setReturnDate(LocalDate.now());
+        System.out.println(rent.getBook().getTitle());
+       rent.setReturnDate(LocalDate.now());
         rentService.saveRent(rent);
         Book book= rent.getBook();
         book.setStatus(Book.Status.AVALIBLE);
         bookService.updateBook(book.getId(), book);
-        return new ModelAndView("redirect:/allRents");
+        return new ModelAndView("redirect:/book/rents");
     }
 
 }

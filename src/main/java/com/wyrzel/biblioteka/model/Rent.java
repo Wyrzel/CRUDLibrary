@@ -4,6 +4,8 @@ package com.wyrzel.biblioteka.model;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -18,13 +20,13 @@ import java.time.LocalDate;
 public class Rent {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rent_id;
     private LocalDate rentDate;
     private LocalDate returnDate;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
-
+    @NotFound(action= NotFoundAction.IGNORE)
     private Book book;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

@@ -18,14 +18,13 @@ public class Book {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String isbn;
     private String title;
     private String publishYear;
     private String author;
-    //@Temporal(TemporalType.DATE)
-    //@Column(columnDefinition = "DATE DEFAULT CURRENT_DATE")
+
     private LocalDate addingDate;
     private Status status=Status.AVALIBLE;
 
