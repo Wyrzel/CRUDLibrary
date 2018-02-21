@@ -38,7 +38,7 @@
                     <!-- PROFILE BUTTON ON NAVBAR (ONLY VISIBLE TO SIGNED IN)  -->
 
                     <sec:authorize access="hasRole('ROLE_USER')">
-                        <a href="${pageContext.request.contextPath }/profile/${user.email}"
+                        <a href="${pageContext.request.contextPath }/profile"
                            class="btn btn-success">My Profile</a>
                     </sec:authorize>
 
@@ -52,6 +52,10 @@
                            class="btn btn-success">All Books</a>
                     </sec:authorize>
 
+                    <sec:authorize access="hasRole('ROLE_USER')">
+                        <a href="${pageContext.request.contextPath }/book/rents"
+                           class="btn btn-success">All Rents</a>
+                    </sec:authorize>
 
 
 

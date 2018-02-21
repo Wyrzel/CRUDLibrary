@@ -1,5 +1,6 @@
 package com.wyrzel.biblioteka.service.Rent;
 
+import com.wyrzel.biblioteka.model.Book;
 import com.wyrzel.biblioteka.model.Rent;
 import com.wyrzel.biblioteka.model.User;
 import com.wyrzel.biblioteka.repository.RentRepository;
@@ -19,6 +20,11 @@ public class RentServiceImpl implements RentService {
     public List<Rent> findRentsByUser(User user) {
         return rentRepository.findByUser(user);
 
+    }
+
+    @Override
+    public List<Rent> findRentsByBook(Book book) {
+        return rentRepository.findByBook(book);
     }
 
     @Override
@@ -46,4 +52,6 @@ public class RentServiceImpl implements RentService {
         return rentRepository.findOne(id);
 
     }
+
+
 }

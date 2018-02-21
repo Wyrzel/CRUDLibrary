@@ -2,7 +2,9 @@ package com.wyrzel.biblioteka.controller;
 
 
 import com.wyrzel.biblioteka.model.Book;
+import com.wyrzel.biblioteka.model.Rent;
 import com.wyrzel.biblioteka.service.Book.BookServiceImpl;
+import com.wyrzel.biblioteka.service.Rent.RentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,9 @@ public class BookController {
 
     @Autowired
     private BookServiceImpl bookService;
+
+    @Autowired
+    private RentServiceImpl rentService;
 
 
     @RequestMapping(value = "/allBooks")
@@ -70,9 +75,15 @@ public class BookController {
     }
 
     @GetMapping(value = "/book/{id}")
-    public ModelAndView detailBook(@PathVariable long id, ModelAndView modelAndView) {
+    public ModelAndView detailBook(@PathVariable long id) {
+        ModelAndView modelAndView = new ModelAndView();
         Book book = bookService.getBook(id);
         modelAndView.addObject("book", book);
+
+        System.out.println(book.getBookHistory().isEmpty());
+
+        List<Rent> bookHistory=rentService.findRentsByBook(book);
+        modelAndView.addObject("bookHistory", bookHistory);
         modelAndView.setViewName("bookDetails");
         return modelAndView;
 

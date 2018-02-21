@@ -31,7 +31,6 @@ public @Data class User {
     @Enumerated(EnumType.STRING)
     private Role role=Role.USER;
 
-
     public Long getUser_id() {
         return user_id;
     }
@@ -79,4 +78,6 @@ public @Data class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
+
 }

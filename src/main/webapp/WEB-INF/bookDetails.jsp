@@ -72,6 +72,32 @@
     </div>
 </div>
 
+<br><br><br>
+
+<c:if test="${!empty bookHistory}">
+<div class="col-md-offset-2 col-xs-offset-4">
+    <h3>
+        <strong>Book History</strong>
+    </h3>
+    <table class="table-bordered">
+        <tr>
+            <th width="120">rent Date</th>
+            <th width="120">return Date</th>
+            <th width="120">by</th>
+
+        </tr>
+        <c:forEach items="${bookHistory}" var="rent">
+            <tr>
+                <td>${rent.rentDate}</td>
+                <td>${rent.returnDate}</td>
+                <td>${rent.user.firstName}</td>
+
+
+            </tr>
+        </c:forEach>
+    </table>
+    </c:if>
+
 
 </body>
 </html>

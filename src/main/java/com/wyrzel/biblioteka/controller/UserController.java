@@ -1,8 +1,11 @@
 package com.wyrzel.biblioteka.controller;
 
+import com.wyrzel.biblioteka.model.Rent;
 import com.wyrzel.biblioteka.model.User;
+import com.wyrzel.biblioteka.service.Rent.RentServiceImpl;
 import com.wyrzel.biblioteka.service.User.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +21,9 @@ public class UserController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private RentServiceImpl rentService;
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public String getUsersPage(Model model) {
@@ -37,12 +43,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/profile",method = RequestMethod.GET)
-    public ModelAndView getUser(Principal principal, ModelAndView modelAndView) {
+    public ModelAndView getUser(Principal principal) {
+        ModelAndView modelAndView = new ModelAndView();
         User user= userService.findByEmail(principal.getName());
-      //  ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user",user);
-        modelAndView.setViewName("profile");
+
+        List<Rent> userRents=rentService.findRentsByUser(user);
         System.out.println(user.getFirstName());
+        modelAndView.addObject("userRents", userRents);
+        modelAndView.setViewName("profile");
+
         return modelAndView;
     }
 }

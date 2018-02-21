@@ -1,5 +1,6 @@
 package com.wyrzel.biblioteka.service.Rent;
 
+import com.wyrzel.biblioteka.model.Book;
 import com.wyrzel.biblioteka.model.Rent;
 import com.wyrzel.biblioteka.model.User;
 
@@ -16,4 +17,6 @@ public interface RentService {
     List<Rent> getAllRents();
 
     Rent findRent(Long id);
+
+    List<Rent> findRentsByBook(Book book);
 }

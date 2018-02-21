@@ -6,15 +6,17 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
-
-
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "book")
 public class Book {
 
     public enum Status {
-        AVALIBLE, LOANED};
+        AVALIBLE, LOANED
+    }
 
 
     @Id
@@ -24,22 +26,12 @@ public class Book {
     private String title;
     private String publishYear;
     private String author;
-
     private LocalDate addingDate;
-    private Status status=Status.AVALIBLE;
+    private Status status = Status.AVALIBLE;
+   @OneToMany(mappedBy = "book")
+    private List<Rent> bookHistory;
 
 
-    public Book(String isbn, String title, String publishYear, String author, LocalDate addingDate, Status status) {
-        this.isbn = isbn;
-        this.title = title;
-        this.publishYear = publishYear;
-        this.author = author;
-        this.addingDate = addingDate;
-        this.status = status;
-    }
-
-    public Book() {
-    }
 
     public Long getId() {
         return id;
@@ -95,5 +87,13 @@ public class Book {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public List<Rent> getBookHistory() {
+        return bookHistory;
+    }
+
+    public void setBookHistory(List<Rent> bookHistory) {
+        this.bookHistory = bookHistory;
     }
 }

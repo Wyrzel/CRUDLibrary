@@ -26,7 +26,8 @@ public class Rent {
     private LocalDate returnDate;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
-    @NotFound(action= NotFoundAction.IGNORE)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Book book;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

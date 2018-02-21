@@ -98,9 +98,7 @@
         </c:if>
     </div>
 </div>
-<footer>
-    <h1>stopka</h1>
-</footer>
+
 
 </body>
 </html>

@@ -35,18 +35,18 @@ public class RentController {
     public ModelAndView RentBook(Principal principal, @PathVariable Long id) {
         Book book = bookService.getBook(id);
 
-            User user = userService.findByEmail(principal.getName());
-            book.setStatus(Book.Status.LOANED);
-            LocalDate rentDate = LocalDate.now();
-            LocalDate returnDate = rentDate.plusMonths(1);
-            Rent rent = new Rent(rentDate, returnDate, book, user);
-            rentService.saveRent(rent);
+        User user = userService.findByEmail(principal.getName());
+        book.setStatus(Book.Status.LOANED);
+        LocalDate rentDate = LocalDate.now();
+        LocalDate returnDate = rentDate.plusMonths(1);
+        Rent rent = new Rent(rentDate, returnDate, book, user);
+        rentService.saveRent(rent);
 
-            return new ModelAndView("redirect:/profile");
+        return new ModelAndView("redirect:/profile");
     }
 
-    @RequestMapping(value = "/book/rents",method = RequestMethod.GET)
-    public ModelAndView AllRents(ModelAndView modelAndView){
+    @RequestMapping(value = "/book/rents", method = RequestMethod.GET)
+    public ModelAndView AllRents(ModelAndView modelAndView) {
         List<Rent> rents = rentService.getAllRents();
         modelAndView.addObject("listRents", rents);
         modelAndView.setViewName("allRents");
@@ -54,14 +54,18 @@ public class RentController {
     }
 
     @RequestMapping(value = "/deleteRent/{id}", method = RequestMethod.GET)
-    public ModelAndView DeleteRent(@PathVariable Long id, ModelAndView modelAndView){
-        Rent rent =rentService.findRent(id);
-        System.out.println(rent.getBook().getTitle());
-       rent.setReturnDate(LocalDate.now());
-        rentService.saveRent(rent);
-        Book book= rent.getBook();
+    public ModelAndView DeleteRent(@PathVariable Long id, ModelAndView modelAndView) {
+        Rent rent = rentService.findRent(id);
+        rent.setReturnDate(LocalDate.now());
+        Book book = rent.getBook();
         book.setStatus(Book.Status.AVALIBLE);
+        List<Rent> bookHistory= book.getBookHistory();
+        bookHistory.add(rent);
+        System.out.println(bookHistory.size());
+        book.setBookHistory(bookHistory);
+        rentService.saveRent(rent);
         bookService.updateBook(book.getId(), book);
+
         return new ModelAndView("redirect:/book/rents");
     }
 
