@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -42,15 +43,25 @@ public class UserController {
 
     }
 
-    @RequestMapping(value = "/profile",method = RequestMethod.GET)
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public ModelAndView getUser(Principal principal) {
         ModelAndView modelAndView = new ModelAndView();
-        User user= userService.findByEmail(principal.getName());
-        modelAndView.addObject("user",user);
+        User user = userService.findByEmail(principal.getName());
+        modelAndView.addObject("user", user);
+        List<Rent> allUserRents = rentService.findRentsByUser(user);
+        List<Rent> userRents=new ArrayList<>();
+        List<Rent> userHistoryRents=new ArrayList<>();
+        for (int i = 0; i < allUserRents.size(); i++) {
+            if(!allUserRents.get(i).isRentFinished()){
+                userRents.add(allUserRents.get(i));
+            }else{
+                userHistoryRents.add(allUserRents.get(i));
+            }
 
-        List<Rent> userRents=rentService.findRentsByUser(user);
-        System.out.println(user.getFirstName());
+        }
+
         modelAndView.addObject("userRents", userRents);
+        modelAndView.addObject("userHistoryRents", userHistoryRents);
         modelAndView.setViewName("profile");
 
         return modelAndView;

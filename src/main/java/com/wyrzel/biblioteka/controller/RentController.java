@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 import java.security.Principal;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -39,7 +40,7 @@ public class RentController {
         book.setStatus(Book.Status.LOANED);
         LocalDate rentDate = LocalDate.now();
         LocalDate returnDate = rentDate.plusMonths(1);
-        Rent rent = new Rent(rentDate, returnDate, book, user);
+        Rent rent = new Rent(rentDate, returnDate, false,book, user);
         rentService.saveRent(rent);
 
         return new ModelAndView("redirect:/profile");
@@ -47,9 +48,19 @@ public class RentController {
 
     @RequestMapping(value = "/book/rents", method = RequestMethod.GET)
     public ModelAndView AllRents(ModelAndView modelAndView) {
-        List<Rent> rents = rentService.getAllRents();
-        modelAndView.addObject("listRents", rents);
-        modelAndView.setViewName("allRents");
+        List<Rent> allRents = rentService.getAllRents();
+        List<Rent> rents=new ArrayList<>();
+        for(int i=0;i<allRents.size();i++){
+            if(!allRents.get(i).isRentFinished()){
+                rents.add(allRents.get(i));
+
+            }
+
+        }
+        System.out.println(rents.size());
+            modelAndView.addObject("listRents", rents);
+            modelAndView.setViewName("allRents");
+
         return modelAndView;
     }
 
@@ -57,6 +68,7 @@ public class RentController {
     public ModelAndView DeleteRent(@PathVariable Long id, ModelAndView modelAndView) {
         Rent rent = rentService.findRent(id);
         rent.setReturnDate(LocalDate.now());
+        rent.setRentFinished(true);
         Book book = rent.getBook();
         book.setStatus(Book.Status.AVALIBLE);
         List<Rent> bookHistory= book.getBookHistory();

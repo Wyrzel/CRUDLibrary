@@ -73,8 +73,11 @@
 </div>
 
 <br><br><br>
-
-<c:if test="${!empty bookHistory}">
+<c:choose>
+<c:when test="${empty bookHistory}">
+    <h3 class="text-center">Book History is empty!</h3>
+</c:when>
+<c:otherwise>
 <div class="col-md-offset-2 col-xs-offset-4">
     <h3>
         <strong>Book History</strong>
@@ -96,8 +99,9 @@
             </tr>
         </c:forEach>
     </table>
-    </c:if>
-
+</div>
+</c:otherwise>
+</c:choose>
 
 </body>
 </html>

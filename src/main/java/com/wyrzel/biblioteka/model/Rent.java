@@ -24,6 +24,7 @@ public class Rent {
     private Long rent_id;
     private LocalDate rentDate;
     private LocalDate returnDate;
+    private boolean rentFinished=false;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -33,9 +34,11 @@ public class Rent {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Rent(LocalDate rentDate, LocalDate returnDate, Book book, User user) {
+
+    public Rent(LocalDate rentDate, LocalDate returnDate, boolean rentFinished, Book book, User user) {
         this.rentDate = rentDate;
         this.returnDate = returnDate;
+        this.rentFinished = rentFinished;
         this.book = book;
         this.user = user;
     }
@@ -78,6 +81,14 @@ public class Rent {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isRentFinished() {
+        return rentFinished;
+    }
+
+    public void setRentFinished(boolean rentFinished) {
+        this.rentFinished = rentFinished;
     }
 }
 

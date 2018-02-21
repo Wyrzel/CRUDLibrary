@@ -59,9 +59,11 @@
 <br><br><br><br><br><br>
 <div class="row">
     <div class="col-md-3 col-md-offset-3 "><h1>Rent List</h1></div>
-
-
-    <c:if test="${!empty listRents}">
+    <c:choose>
+    <c:when test="${empty listRents}">
+        <h3 class="text-center">The list is empty!</h3>
+    </c:when>
+    <c:otherwise>
     <div class="col-md-12">
         <table class="table table-striped">
             <tr>
@@ -86,12 +88,11 @@
                 </tr>
             </c:forEach>
         </table>
-        </c:if>
+        </c:otherwise>
+        </c:choose>
     </div>
 </div>
-<footer>
-    <h1>stopka</h1>
-</footer>
+
 
 </body>
 </html>
