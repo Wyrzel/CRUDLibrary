@@ -50,8 +50,8 @@
                        placeholder="Last name" required>
                 <input name="password" type="password" id="inputPassword" class="form-control"
                        placeholder="Password" required>
-                <input name="repeatPassword" type="password" id="inputRepeatedPassword"
-                       class="form-control" placeholder="Repeat password" required>
+                <input name="passwordConfirm" type="password" id="inputPasswordConfirm"
+                       class="form-control" placeholder="passwordConfirm" required>
                 <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Create
                 </button>
             </form>

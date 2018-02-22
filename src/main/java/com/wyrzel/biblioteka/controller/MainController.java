@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
@@ -40,11 +41,16 @@ public class MainController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String register(@ModelAttribute User user) {
 
+        if(userService.isEmailUnique(user.getEmail())) {
+            ModelAndView modelAndView=new ModelAndView();
+            return "registration";
+
+        }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String password = encoder.encode(user.getPassword());
         user.setPassword(password);
-
         userService.save(user);
+
         return "redirect:/login";
     }
 

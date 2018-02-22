@@ -28,6 +28,7 @@ public @Data class User {
     private String lastName;
     private String email;
     private String password;
+    private String passwordConfirm;
     @Enumerated(EnumType.STRING)
     private Role role=Role.USER;
 
@@ -79,5 +80,11 @@ public @Data class User {
         this.role = role;
     }
 
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
 
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
 }

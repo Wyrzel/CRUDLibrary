@@ -27,17 +27,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user=userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
 
-        if(user==null){
-            throw new UsernameNotFoundException("User not found: " +email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found: " + email);
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        if(user.getRole()==User.Role.ADMIN){
+        if (user.getRole() == User.Role.ADMIN) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        }
-        else if(user.getRole()==User.Role.USER){
+        } else if (user.getRole() == User.Role.USER) {
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
 
@@ -71,5 +70,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+
+    @Override
+    public boolean isEmailUnique(String email) {
+        User user = findByEmail(email);
+
+        if (user == null) {
+            return false;
+        }
+        return true;
     }
 }

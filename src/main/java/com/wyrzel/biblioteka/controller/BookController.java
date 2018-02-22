@@ -84,6 +84,7 @@ public class BookController {
 
         List<Rent> bookHistory=rentService.findRentsByBook(book);
         modelAndView.addObject("bookHistory", bookHistory);
+        modelAndView.addObject("rented",bookHistory.get(bookHistory.size()-1).getReturnDate());
         modelAndView.setViewName("bookDetails");
         return modelAndView;
 

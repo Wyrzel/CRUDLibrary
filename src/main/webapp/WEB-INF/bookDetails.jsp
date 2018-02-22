@@ -66,7 +66,7 @@
                 <a href="/book/rent/${book.id}" class="btn btn-warning" method="POST"> Rent</a>
             </c:if>
             <c:if test="${book.status eq 'LOANED'}">
-                <span class="label label-success">${book.status}</span>
+                <span class="label label-success">${book.status} to ${rented}</span>
             </c:if>
         </div>
     </div>
